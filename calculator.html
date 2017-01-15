@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Ugly Calculator</title>
+  <script
+   src="https://code.jquery.com/jquery-3.1.1.min.js"
+   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+   crossorigin="anonymous">
+  </script>
+  <style type="text/css">
+    button {
+      font-family: 'courier new', monospace;
+      width: 5em;
+      height: 3em;
+    }
+
+    #display {
+      display: inline-block;
+      border: 3px solid gray;
+      height: 2em;
+      line-height: 2em;
+      min-width: 20em;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+<div id="calcBody">
+<pre id="display"></pre>
+<div id="buttons">
+<div>
+  <button>AC</button>
+  <button>CE</button>
+  <button>&plusmn;</button>
+  <button>&divide;</button>
+</div>
+<div>
+  <button>7</button>
+  <button>8</button>
+  <button>9</button>
+  <button>&times;</button>
+</div>
+<div>
+  <button>4</button>
+  <button>5</button>
+  <button>6</button>
+  <button>+</button>
+</div>
+<div>
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>-</button>
+</div>
+<div>
+  <button>0</button>
+  <button>.</button>
+  <button>=</button>
+</div>
+</div>
+<script src="js/calc.js"></script>
+</body>
+</html>
