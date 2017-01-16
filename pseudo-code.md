@@ -64,7 +64,7 @@ AC:
   Beginning: do nothing
   Following digit: reset everything
   Following op: " "
-  Following plusminus: " ""
+  Following plusminus: " "
   Following decimal: " " 
   Following equal: " "
   Following CE: " "
@@ -72,10 +72,10 @@ AC:
 
 CE:
   Beginning: do nothing
-  Following digit: clear current number, decimal, clear current display
+  Following digit: clear current number, current op, decimal, clear current display
   Following op: " "
   Following plusminus: " ""
   Following decimal: " " 
-  Following equal: clear result (= current number), decimal, clear display
+  Following equal: clear result (= current number), current op, decimal, clear display
   Following CE: do nothing
   Following AC: do nothing

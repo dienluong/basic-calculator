@@ -54,6 +54,7 @@ $(function () {
         }
       }
       gLastNumber = Number(display);
+      gLastOp = "";
       gLastEntryType = "digit";
       return display;
     }
@@ -65,15 +66,37 @@ $(function () {
           gEntriesArray.push(gLastOp);
         }
         display = e.target.textContent;
-        gLastOp = "";
         gHasDecimal = false;
       } // last entry was a digit so keep appending to number.
       else {
-        display = display + e.target.textContent;
+        if (Number(display) === 0 && !gHasDecimal)
+          //prevents leading zero
+          display = e.target.textContent;
+        else
+          display = display + e.target.textContent;
       }
 
       gLastNumber = Number(display);
+      gLastOp = "";
       gLastEntryType = 'digit';
+      return display;
+    }
+
+    function clearEntryPressed(display) {
+      if (gLastNumber !== null) {
+        gLastNumber = null;
+        gHasDecimal = false;
+        gLastEntryType = "digit";
+        gLastOp = "";
+        display = "";
+      }
+
+      return display;
+    }
+
+    function clearAllPressed(display) {
+      display = clearEntryPressed(display);
+      gEntriesArray = [];
       return display;
     }
 
@@ -81,13 +104,9 @@ $(function () {
     var currentDisplay = display(DISPLAY);
     if (e.target.tagName === 'BUTTON') {
       switch (e.target.textContent) {
-        case 'CE': nextDisplay = "";
-                  gLastEntryType = "digit";
-                  gLastNumber = null;
-                  gLastOp = "";
-                  gHasDecimal = false;
+        case 'CE': nextDisplay = clearEntryPressed(currentDisplay);
                   break;
-        case 'AC': //clear all
+        case 'AC': nextDisplay = clearAllPressed(currentDisplay);
                   break;
         case '=': //calculate final result and display it
                   break;
