@@ -1,4 +1,4 @@
-$(function () {
+function calculator() {
   const DISPLAY = '#display';
   let gEntriesArray  = [];
   let gHasDecimal    = false;
@@ -7,12 +7,14 @@ $(function () {
   let gLastEntryType = "digit"; // digit or operation
 
   // Set or get display area text
-  function display(target, str) {
+  function updateDisplay(target, str) {
     var container = $(target);
     if (str === undefined)
       return container.text() || "";
-    else
+    else {
       container.text(str);
+      return str;
+    }
   }
 
 
@@ -101,7 +103,7 @@ $(function () {
     }
 
     var nextDisplay = "";
-    var currentDisplay = display(DISPLAY);
+    var currentDisplay = updateDisplay(DISPLAY);
     if (e.target.tagName === 'BUTTON') {
       switch (e.target.textContent) {
         case 'CE': nextDisplay = clearEntryPressed(currentDisplay);
@@ -127,11 +129,11 @@ $(function () {
       }
       console.log("Entries: ", gEntriesArray);
       console.log("Last entry, number, op: ", gLastEntryType + " / " + gLastNumber + " / " + gLastOp);
-      display(DISPLAY, nextDisplay);
+      updateDisplay(DISPLAY, nextDisplay);
     }
     e.stopPropagation();
   }
 
   $('div#buttons').on('click', buttonPress);
   // document.querySelector('div#buttons').addEventListener("click", buttonPress);
-});
+}
