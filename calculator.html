@@ -59,10 +59,10 @@
   <button>=</button>
 </div>
 </div>
-<script src="js/calc.js"></script>
+<script src="js/calc-factory.js"></script>
 <script type="text/javascript">
-  /* global calculator */
-  calculator();
+  /* global calculator, calcFactory */
+  var calculator = calcFactory({ display: '#display', buttons: 'div#buttons' });
 </script>
 </body>
 </html>
