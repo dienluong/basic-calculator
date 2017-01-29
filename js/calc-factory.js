@@ -1,26 +1,23 @@
-// const calcProto = {
-//   display() {},
-//   operation() {},
-//   plusminus() {},
-//   decimal() {},
-//   digit() {},
-//   clearEntry() {},
-//   clearAll() {}
-// };
-
+'use strict';
 
 function calcFactory(spec) {
-  const DISPLAY = spec.display;
-  const BUTTONS = spec.buttons;
+  const DISPLAY = document.querySelector(spec.display);
+  const BUTTONS = document.querySelector(spec.buttons);
   let gEntriesArray  = [];
   let gHasDecimal    = false;
   let gLastNumber    = null;  // gLastNumber is null at startup and after CA and CE
   let gLastOp        = "";
   let gLastEntryType = "digit"; // digit or operation
 
-  var Calculator = {
+  const Calculator = {
     init () {
-      $(BUTTONS).on('click', this.buttonPressHandler.bind(this));
+      // $(BUTTONS).on('click', this.buttonPressHandler.bind(this));
+      if (!BUTTONS)
+        throw new Error("Invalid initialization parameter: buttons.");
+      if (!DISPLAY)
+        throw new Error("Invalid initialization parameter: display.");
+      BUTTONS.removeEventListener('click', this.buttonPressHandler.bind(this));
+      BUTTONS.addEventListener("click", this.buttonPressHandler.bind(this));
     },
 
     // Set or get display area text
@@ -153,6 +150,11 @@ function calcFactory(spec) {
   };
 
   var calcObj = Object.create(Calculator);
-  calcObj.init();
+  try {
+    calcObj.init();
+  }
+  catch (err) {
+    window.alert(err);
+  }
   return calcObj;
 }
