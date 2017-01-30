@@ -11,13 +11,14 @@ function calcFactory(spec) {
 
   const Calculator = {
     init () {
-      // $(BUTTONS).on('click', this.buttonPressHandler.bind(this));
       if (!BUTTONS)
         throw new Error("Invalid initialization parameter: buttons.");
       if (!DISPLAY)
         throw new Error("Invalid initialization parameter: display.");
-      BUTTONS.removeEventListener('click', this.buttonPressHandler.bind(this));
-      BUTTONS.addEventListener("click", this.buttonPressHandler.bind(this));
+      $(BUTTONS).off('click.calculator', this.buttonPressHandler.bind(this));
+      $(BUTTONS).on('click.calculator', this.buttonPressHandler.bind(this));
+      // BUTTONS.removeEventListener('click', this.buttonPressHandler.bind(this));
+      // BUTTONS.addEventListener("click", this.buttonPressHandler.bind(this));
     },
 
     // Set or get display area text
