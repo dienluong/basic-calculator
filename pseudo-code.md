@@ -10,8 +10,8 @@ CE
 Digit:
   xBeginning: append digit (to blank), display digit.
   xFollowing digit: append digit to current number, display number; if following zero, remove zero before displaying.
-  Following plusminus:  " "
-  Following decimal:  " "
+  xFollowing plusminus:  " "
+  xFollowing decimal:  " "
   xFollowing op:  add current number and op to master array, clear display & number, append digit (to blank), display digit
   Following equal: idem to Beginning
             AC: " "
@@ -29,22 +29,22 @@ Operation:
   Following CE: do nothing
 
 PlusMinus:
-  Beginning: do nothing
-  Following digit: toggle sign of current number, display
-  Following op:  " "
-  Following plusminus: " "
-  Following decimal: " "
+  xBeginning: do nothing
+  xFollowing digit: toggle sign of current number, display
+  xFollowing op:  " "
+  xFollowing plusminus: " "
+  xFollowing decimal: " "
   Following equal: toggle sign of result (= current number), display
   Following AC: do nothing
   Following CE: do nothing
 
 Decimal Point:
-  Beginning: add to current number (0), display
-  Following digit: if no decimal yet, then add to current number, display; otherwise, do nothing
-  Following op: assign "0." to current number.
-  Following plusminus: " "
-  Following decimal: if last char is current number is decimal, then toggle decimal point, display; 
-                      if current number is "0.", remove everything;
+  xBeginning: add to current number (0), display
+  xFollowing digit: if no decimal yet, then add to current number, display; otherwise, do nothing
+  xFollowing plusminus: " "
+  xFollowing op: saves current number and op, then displays "0."
+  xFollowing decimal: if current number ends with decimal, then toggle decimal point, display; 
+                      if current number is "0.", remove decimal point;
                       otherwise, nothing.
   Following equal: if no decimal yet, add to result, display
   Following AC: add to current number (0), display
