@@ -8,11 +8,11 @@ CE
 
 
 Digit:
-  Beginning: append digit (to blank), display digit
-  Following digit: append digit to current number, display number
-          plusminus:  " "
-          decimal:  " "
-  Following op:  add current number and op to master array, clear display & number, append digit (to blank), display digit
+  xBeginning: append digit (to blank), display digit; if digit-0, nothing displayed.
+  xFollowing digit: append digit to current number, display number
+  Following plusminus:  " "
+  Following decimal:  " "
+  xFollowing op:  add current number and op to master array, clear display & number, append digit (to blank), display digit
   Following equal: idem to Beginning
             AC: " "
   Following CE: " "
