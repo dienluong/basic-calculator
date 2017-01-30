@@ -8,8 +8,8 @@ CE
 
 
 Digit:
-  xBeginning: append digit (to blank), display digit; if digit-0, nothing displayed.
-  xFollowing digit: append digit to current number, display number
+  xBeginning: append digit (to blank), display digit.
+  xFollowing digit: append digit to current number, display number; if following zero, remove zero before displaying.
   Following plusminus:  " "
   Following decimal:  " "
   xFollowing op:  add current number and op to master array, clear display & number, append digit (to blank), display digit
@@ -19,11 +19,11 @@ Digit:
 
 
 Operation:
-  Beginning: do nothing
-  Following digit: save as current op
-  Following op:  " "
-  Following plusminus: " "
-  Following decimal: " "
+  xBeginning: do nothing
+  xFollowing digit: save as current op
+  xFollowing op:  " "
+  xFollowing plusminus: " "
+  xFollowing decimal: " "
   Following equal: save as current op
   Following AC: do nothing
   Following CE: do nothing
