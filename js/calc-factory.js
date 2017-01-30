@@ -21,6 +21,51 @@ function calcFactory(spec) {
       // BUTTONS.addEventListener("click", this.buttonPressHandler.bind(this));
     },
 
+    addToEntriesArray (entry) {
+      gEntriesArray.push(entry);
+    },
+
+    clearEntriesArray () {
+      gEntriesArray = [];
+    },
+
+    getEntriesArray () {
+      return gEntriesArray.slice();
+    },
+
+    setLastOp (op) {
+      gLastOp = op;
+      return gLastOp;
+    },
+
+    getLastOp () {
+      return gLastOp;
+    },
+
+    setLastNumber (nb) {
+      gLastNumber = nb;
+    },
+
+    getLastNumber () {
+      return gLastNumber;
+    },
+
+    setLastEntryType (type) {
+      gLastEntryType = type;
+    },
+
+    getLastEntryType () {
+      return gLastEntryType;
+    },
+
+    setHasDecimal (has) {
+      gHasDecimal = has;
+    },
+
+    getHasDecimal () {
+      return gHasDecimal;
+    },
+
     // Set or get display area text
     updateDisplay (target, str) {
       var container = $(target);
@@ -133,7 +178,7 @@ function calcFactory(spec) {
             case '\u00D7': //multiplication
                       nextDisplay = this.operation(currentDisplay, e.target.textContent);
                       break;
-            case '\u00b1': //toggle +/-
+            case '\u00B1': //toggle +/-
                       nextDisplay = this.plusminus(currentDisplay);
                       break;
             case '.': //decimal
@@ -142,8 +187,8 @@ function calcFactory(spec) {
             default:  //last entry was an operation, then save the current number and operation
                       nextDisplay = this.digit(currentDisplay, e.target.textContent);
           }
-          console.log("Entries: ", gEntriesArray);
-          console.log("Last entry, number, op: ", gLastEntryType + " / " + gLastNumber + " / " + gLastOp);
+          // console.log("Entries: ", gEntriesArray);
+          // console.log("Last entry, number, op: ", gLastEntryType + " / " + gLastNumber + " / " + gLastOp);
           this.updateDisplay(DISPLAY, nextDisplay);
         }
         e.stopPropagation();
