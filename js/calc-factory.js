@@ -90,24 +90,35 @@ function calcFactory(spec) {
         return display;
 
       gLastNumber *= -1;
+      gLastEntryType = "digit";
       return display[0] === '-' ? display.slice(1): '-' + display;
     },
 
     decimal (display) {
-      // no current number
-      if (gLastNumber === null) {
+      if (gLastEntryType === 'operation') {
+        if (gLastOp && gLastNumber !== null) {
+          gEntriesArray.push(gLastNumber);
+          gEntriesArray.push(gLastOp);
+        }
         display = "0.";
         gHasDecimal = true;
       }
-      else { // number has no decimal
-        if (!gHasDecimal) {
-          display = display + '.';
+      else { // last key pressed was not an operation key, then...
+        // no current number
+        if (gLastNumber === null) {
+          display = "0.";
           gHasDecimal = true;
         }
-        else { //if number ends with decimal, then toggle, otherwise do nothing
-          if (display[display.length-1] === '.') {
-            display = display.substr(0, display.length-1);
-            gHasDecimal = false;
+        else { // number has no decimal
+          if (!gHasDecimal) {
+            display = display + '.';
+            gHasDecimal = true;
+          }
+          else { //if number ends with decimal, then toggle, otherwise do nothing
+            if (display[display.length-1] === '.') {
+              display = display.substr(0, display.length-1);
+              gHasDecimal = false;
+            }
           }
         }
       }
