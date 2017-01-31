@@ -13,9 +13,9 @@ Digit:
   xFollowing plusminus:  " "
   xFollowing decimal:  " "
   xFollowing op:  add current number and op to master array, clear display & number, append digit (to blank), display digit
-  Following equal: idem to Beginning
-            AC: " "
-  Following CE: " "
+  Following equal: append digit to result
+            AC: Same as beginning
+  Following CE: Same as beginning
 
 
 Operation:
@@ -51,31 +51,34 @@ Decimal Point:
   Following CE: add to current number (0), display
 
 Equal:
-  Beginning: do nothing
-  Following digit: process master array, calculate, display result, save result as current number
+  xBeginning: do nothing
+  xFollowing digit: process master array, calculate, display result, save result as current number
   Following plusminus: " "
   Following decimal: " " 
-  Following op: discard last op entry, add current number to master array, process, calculate and display result.
+  xFollowing op: discard last op entry, add current number to master array, process, calculate and display result.
   Following CE: " "
   Following equal: do nothing
   Following AC: do nothing
 
 AC:
   Beginning: do nothing
-  Following digit: reset everything
-  Following op: " "
-  Following plusminus: " "
-  Following decimal: " " 
+  xFollowing digit: reset everything
+  xFollowing op: " "
+  xFollowing plusminus: " "
+  xFollowing decimal: " " 
   Following equal: " "
-  Following CE: " "
-  Following AC: " "
+  xFollowing CE: " "
+  xFollowing AC: " "
 
 CE:
   xBeginning: do nothing
-  xFollowing digit: clear current number, decimal, clear current display
+  xFollowing digit: clear current number, decimal, display and active op
   xFollowing op: clear current number, decimal, display and active op
-  Following plusminus: " "
-  Following decimal: " " 
+  xFollowing plusminus: " "
+  xFollowing decimal: " " 
   Following equal: clear result (= current number), current op, decimal, clear display
   Following CE: do nothing
   Following AC: do nothing
+
+Active Op key resets when:
+
