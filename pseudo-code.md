@@ -71,10 +71,10 @@ AC:
   Following AC: " "
 
 CE:
-  Beginning: do nothing
-  Following digit: clear current number, current op, decimal, clear current display
-  Following op: " "
-  Following plusminus: " ""
+  xBeginning: do nothing
+  xFollowing digit: clear current number, decimal, clear current display
+  xFollowing op: clear current number, decimal, display and active op
+  Following plusminus: " "
   Following decimal: " " 
   Following equal: clear result (= current number), current op, decimal, clear display
   Following CE: do nothing

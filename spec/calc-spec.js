@@ -193,4 +193,49 @@ describe('calculator', function () {
       expect($(DISPLAY)).toHaveText("0.");
     });
   });
+
+  describe('equals key', function() {
+    it('does nothing when pressed at fresh start (blank display)', function() {
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toBeEmpty();
+      expect(this.calculator.getEntriesArray()).toEqual([]);
+    });
+  });
+
+  describe('CE key', function() {
+    it('does nothing when pressed at fresh start (blank display)', function() {
+      $('button:contains("CE")').trigger('click');
+      expect($(DISPLAY)).toBeEmpty();
+    });
+
+    it('clears display and current number when pressed after digit key', function() {
+      $('button:contains("5")').trigger('click');
+      $('button:contains(".")').trigger('click');
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      $('button:contains("6")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("7")').trigger('click');
+      $('button:contains(".")').trigger('click');
+      $('button:contains("CE")').trigger('click');
+      expect($(DISPLAY)).toBeEmpty();
+      expect(this.calculator.getLastNumber()).toBeNull();
+      expect(this.calculator.getHasDecimal()).toBe(false);
+    });
+
+    it('clears display, active op and current number when pressed after op key', function() {
+      $('button:contains("8")').trigger('click');
+      $('button:contains(".")').trigger('click');
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      $('button:contains("9")').trigger('click');
+      $(`button:contains("+")`).trigger('click');
+      $('button:contains("CE")').trigger('click');
+      expect($(DISPLAY)).toBeEmpty();
+      expect(this.calculator.getLastNumber()).toBeNull();
+      expect(this.calculator.getHasDecimal()).toBe(false);
+      expect(this.calculator.getLastOp()).toBe("");
+      // expect($('button:contains("+")')).toHaveClass("active");
+    });
+
+
+  });
 });
