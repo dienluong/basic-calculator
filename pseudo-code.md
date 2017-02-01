@@ -80,5 +80,17 @@ CE:
   Following CE: do nothing
   Following AC: do nothing
 
+Calculations:
+  -1 + 2 = 1
+  3 - (-4) = 7
+  5 x 6 = 30
+  7 / 2 = 3.5
+  1 + 2 - 3 = 0
+  5 x 4 / 2 = 10
+  8 + 9 x 2 = 26
+  10 - 1 / 2 = 9.5
+  4 x 2 - 16 = -8
+  14 / 7 + 8 = 10
+
 Active Op key resets when:
 

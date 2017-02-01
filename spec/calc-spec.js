@@ -337,6 +337,116 @@ describe('calculator', function () {
       expect(this.calculator.getLastOp()).toBe("");
       expect($('button')).not.toBeMatchedBy('button[class]');
     });
+  });
+
+  describe('calculates', function () {
+    it('(-1) + 2 correctly', function() {
+      $('button:contains("1")').trigger('click');
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      $('button:contains("+")').trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText('1');
+      expect(this.calculator.getLastNumber()).toBe(1);
+    });
+
+    it('3 - (-4) correctly', function() {
+      $('button:contains("3")').trigger('click');
+      $('button:contains("-")').trigger('click');
+      $('button:contains("4")').trigger('click');
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText('7');
+      expect(this.calculator.getLastNumber()).toBe(7);
+    });
+
+
+    it('5 x 6 correctly', function() {
+      $('button:contains("5")').trigger('click');
+      $(`button:contains(${MULTIPLICATION})`).trigger('click');
+      $('button:contains("6")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText("30");
+      expect(this.calculator.getLastNumber()).toBe(30);
+    });
+
+    it('7 / 2 correctly', function() {
+      $('button:contains("7")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText("3.5");
+      expect(this.calculator.getLastNumber()).toBe(3.5);
+    });
+
+    it('1 + 2 - 3 correctly', function() {
+      $('button:contains("1")').trigger('click');
+      $('button:contains("+")').trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("-")').trigger('click');
+      $('button:contains("3")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText("0");
+      expect(this.calculator.getLastNumber()).toBe(0);
+    });
+
+    it('5 x 4 / 2 correctly', function() {
+      $('button:contains("5")').trigger('click');
+      $(`button:contains(${MULTIPLICATION})`).trigger('click');
+      $('button:contains("4")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText("10");
+      expect(this.calculator.getLastNumber()).toBe(10);
+    });
+
+    it('8 + 9 x 2 correctly', function() {
+      $('button:contains("8")').trigger('click');
+      $('button:contains("+")').trigger('click');
+      $('button:contains("9")').trigger('click');
+      $(`button:contains(${MULTIPLICATION})`).trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText("26");
+      expect(this.calculator.getLastNumber()).toBe(26);
+    });
+
+    it('10 - 1 / 2 correctly', function() {
+      $('button:contains("1")').trigger('click');
+      $('button:contains("0")').trigger('click');
+      $('button:contains("-")').trigger('click');
+      $('button:contains("1")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText("9.5");
+      expect(this.calculator.getLastNumber()).toBe(9.5);
+    });
+
+    it('4 x 2 - 16 correctly', function() {
+      $('button:contains("4")').trigger('click');
+      $(`button:contains(${MULTIPLICATION})`).trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("-")').trigger('click');
+      $('button:contains("1")').trigger('click');
+      $('button:contains("6")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText("-8");
+      expect(this.calculator.getLastNumber()).toBe(-8);
+    });
+
+    it('14 / 7 + 8 correctly', function() {
+      $('button:contains("1")').trigger('click');
+      $('button:contains("4")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("7")').trigger('click');
+      $('button:contains("+")').trigger('click');
+      $('button:contains("8")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText("10");
+      expect(this.calculator.getLastNumber()).toBe(10);
+    });
 
   });
 });
