@@ -3,6 +3,9 @@
 function calcFactory(spec) {
   const DISPLAY = document.querySelector(spec.display);
   const BUTTONS = document.querySelector(spec.buttons);
+  const MULTIPLICATION = '\u00D7';
+  const DIVISION       = '\u00F7';
+  const PLUS_MINUS     = '\u00B1';
   let gEntriesArray  = [];
   let gHasDecimal    = false;
   let gLastNumber    = null;  // gLastNumber is null at startup and after CA and CE
@@ -172,6 +175,70 @@ function calcFactory(spec) {
       return ""; // returns "" as display
     },
 
+    calculate (equation) {
+      for(var i = 1; i < equation.length; i += 2) {
+      console.log(equation);
+        // Turn number on right to a negative number if operation is a substraction
+        // 1 - 2 * 3 =>  1 + (-2) * 3
+        if (equation[i] === '-') {
+          equation[i+1] *= -1;
+          equation[i] = '+';
+          continue;
+        }
+        else // If operation is not multiplication, nor division, skip to next operation
+        if (equation[i] === '+') {
+          continue;
+        }
+
+        // If operation is division, then invert the 2nd number to make the operation a multiplication
+        if (equation[i] === DIVISION) {
+          equation[i+1] = 1 / equation[i+1];
+        }
+
+        // Do multiplication of numbers on the left and on the right
+        equation[i+1] = equation[i-1] * equation[i+1];
+
+        // Put result in rigt slot,
+        // Put zero on the left and change operation to +
+        // So we have [0][+][result]
+        equation[i-1] = 0;
+        equation[i] = '+';
+
+      console.log(equation);
+      }
+
+      // Now our array should only have + operations
+      for(i = 1; i < equation.length; i += 2) {
+        console.log(equation);
+        equation[i+1] = equation[i-1] + equation[i+1];
+      }
+
+      return equation.pop();
+    },
+
+    equals (display) {
+      let finalResult = 0;
+      if (gLastNumber !== null)
+        gEntriesArray.push(gLastNumber);
+
+      // If entries contain at least one operation, then do calculation
+      if (gEntriesArray.length >= 3) {
+        finalResult = this.calculate(gEntriesArray);
+        if (finalResult !== undefined) {
+          display = finalResult.toString();
+        }
+      }
+      else
+        finalResult = gLastNumber;
+
+      gEntriesArray   = [];
+      gLastNumber     = finalResult;
+      gLastEntryType  = "digit";
+      gHasDecimal     = (finalResult % 1 !== 0);
+      gLastOp         = "";
+      return display;
+    },
+
     buttonPressHandler (e) {
         var nextDisplay = "";
         var currentDisplay = this.updateDisplay(DISPLAY);
@@ -182,20 +249,21 @@ function calcFactory(spec) {
             case 'AC': nextDisplay = this.clearAll(currentDisplay);
                       break;
             case '=': //calculate final result and display it
+                      nextDisplay = this.equals(currentDisplay);
                       break;
             case '+': //addition
             case '-': //substraction
-            case '\u00F7': //division
-            case '\u00D7': //multiplication
+            case DIVISION: //division
+            case MULTIPLICATION: //multiplication
                       nextDisplay = this.operation(currentDisplay, e.target.textContent);
                       break;
-            case '\u00B1': //toggle +/-
+            case PLUS_MINUS: //toggle +/-
                       nextDisplay = this.plusminus(currentDisplay);
                       break;
             case '.': //decimal
                       nextDisplay = this.decimal(currentDisplay);
                       break;
-            default:  //last entry was an operation, then save the current number and operation
+            default:  //digit key
                       nextDisplay = this.digit(currentDisplay, e.target.textContent);
           }
           // console.log("Entries: ", gEntriesArray);
