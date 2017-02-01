@@ -46,6 +46,19 @@ describe('calculator', function () {
       done();
     });
 
+    it('appends digit to displayed result, after = pressed', function(done) {
+      $('button:contains("1")').trigger('click');
+      $('button:contains("0")').trigger('click');
+      $(`button:contains(${MULTIPLICATION})`).trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("0")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      $('button:contains("5")').trigger('click');
+      expect($(DISPLAY)).toHaveText('2005');
+      expect(this.calculator.getLastNumber()).toBe(2005);
+      done();
+    });
+
     it('does not display leading zero when followed by non-zero digit', function(done) {
       $('button:contains("0")').trigger('click');
       $('button:contains("5")').trigger('click');
@@ -123,6 +136,18 @@ describe('calculator', function () {
       // expect($('button:contains("+")')).toHaveClass("active");
       done();
     });
+
+    it('saves pressed op key as current op, highlights op key, if following = key', function(done) {
+      $('button:contains("9")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      $('button:contains("-")').trigger('click');
+      expect(this.calculator.getLastOp()).toBe("-");
+      // expect($('button:contains("-")')).toHaveClass("active");
+      expect($(DISPLAY)).toHaveText('4.5');
+      done();
+    });
   });
 
   describe('plus-minus key', function() {
@@ -132,7 +157,7 @@ describe('calculator', function () {
       expect($(DISPLAY)).toBeEmpty();
     });
 
-    it('toggles negative sign of displayed number, if pressed after digit/op/decimal/plus-minus key', function() {
+    it('toggles negative sign on displayed number, if pressed after digit/op/decimal/plus-minus key', function() {
       // Pressed 0, 1, +/-
       $('button:contains("0")').trigger('click');
       $('button:contains("1")').trigger('click');
@@ -152,6 +177,16 @@ describe('calculator', function () {
       $('button:contains("2")').trigger('click');
       $(`button:contains(${PLUS_MINUS})`).trigger('click');
       expect($(DISPLAY)).toHaveText("-1.2");
+    });
+
+    it('toggles negative sign on displayed number, if pressed after = key', function() {
+      $('button:contains("0")').trigger('click');
+      $('button:contains("4")').trigger('click');
+      $(`button:contains(${MULTIPLICATION})`).trigger('click');
+      $('button:contains("6")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      expect($(DISPLAY)).toHaveText("-24");
     });
   });
 
@@ -192,6 +227,27 @@ describe('calculator', function () {
       expect(this.calculator.getEntriesArray()[1]).toBe('\u00F7');
       expect($(DISPLAY)).toHaveText("0.");
     });
+
+    it('toggles decimal-point if result ends with one or does not already have one, when pressed after = key', function() {
+      $('button:contains("6")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      $('button:contains(".")').trigger('click');
+      // Toggles decimal point at end of number
+      expect($(DISPLAY)).toHaveText("3.");
+      $('button:contains(".")').trigger('click');
+      expect($(DISPLAY)).toHaveText("3");
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      // Does nothing because result is already a fractional number
+      $('button:contains(".")').trigger('click');
+      expect($(DISPLAY)).toHaveText("1.5");
+      $('button:contains(".")').trigger('click');
+      expect($(DISPLAY)).toHaveText("1.5");
+    });
+
   });
 
   describe('CE key', function() {
@@ -310,12 +366,13 @@ describe('calculator', function () {
       $('button:contains("0")').trigger('click');
       $('button:contains("-")').trigger('click');
       $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      $('button:contains("-")').trigger('click');
       $('button:contains("0")').trigger('click');
       $('button:contains("3")').trigger('click');
       $('button:contains(".")').trigger('click');
       $('button:contains("=")').trigger('click');
       expect($(DISPLAY)).toHaveText("-3.12");
-      expect(this.calculator.getLastNumber()).toBe(-3.21);
+      expect(this.calculator.getLastNumber()).toBe(-3.12);
     });
 
     it('discards last active op, starts calculation and displays result, when pressed after op key', function() {
