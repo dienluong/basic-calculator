@@ -93,5 +93,10 @@ xCalculations:
   14 / 7 + 8 = 10
 
 Active Op key resets when:
+  when digit key pressed
   when plusminus key pressed
+  when equals key pressed
+  when AC key pressed
+  when CE key pressed
 
+Division by zero

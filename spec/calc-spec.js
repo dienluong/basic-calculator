@@ -504,6 +504,46 @@ describe('calculator', function () {
       expect($(DISPLAY)).toHaveText("10");
       expect(this.calculator.getLastNumber()).toBe(10);
     });
+  });
 
+  describe('active operation key', function() {
+    it('resets when digit/plus-minus/equals/CE/AC key is pressed', function() {
+      $('button:contains("9")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      expect($(`button:contain(${DIVISION})`)).toHaveClass('active');
+      // Active op resets when digit key pressed
+      $('button:contains("1")').trigger('click');
+      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect(this.calculator.getLastOp()).toBe("");
+
+      $(`button:contains(${MULTIPLICATION})`).trigger('click');
+      expect($(`button:contain(${MULTIPLICATION})`)).toHaveClass('active');
+      // Active op resets when plus-minus key pressed
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect(this.calculator.getLastOp()).toBe("");
+
+      $('button:contains("+")').trigger('click');
+      expect($("button:contain('+')")).toHaveClass('active');
+      // Active op resets when = key pressed
+      $('button:contains("=")').trigger('click');
+      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect(this.calculator.getLastOp()).toBe("");
+
+      $('button:contains("-")').trigger('click');
+      expect($("button:contain('-')")).toHaveClass('active');
+      // Active op resets when CE key pressed
+      $('button:contains("CE")').trigger('click');
+      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect(this.calculator.getLastOp()).toBe("");
+
+      $('button:contains("0")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      expect($(`button:contain(${DIVISION})`)).toHaveClass('active');
+      // Active op resets when AC key pressed
+      $('button:contains("AC")').trigger('click');
+      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect(this.calculator.getLastOp()).toBe("");
+    });
   });
 });
