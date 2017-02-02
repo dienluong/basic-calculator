@@ -84,18 +84,23 @@ function calcFactory(spec) {
         return display;
 
       if (gLastOp !== op) {
+        // If diff op key pressed, then switch to that op
         $(`button:contains(${gLastOp})`).removeClass('active');
+        gLastOp = op;
+        gLastEntryType = 'operation';
+      }
+      else { // If op key pressed was already active, then deactivate it and go back to "digit entry mode".
+        gLastOp = "";
+        gLastEntryType = 'digit';
       }
 
-      gLastOp = op;
-      $(`button:contains(${gLastOp})`).toggleClass('active');
-      gLastEntryType = 'operation';
+      $(`button:contains(${op})`).toggleClass('active');
       return display;
     },
 
     plusminus (display) {
       $(`button:contains(${gLastOp})`).removeClass('active');
-      if (gLastNumber === null)
+      if (gLastNumber === null || gLastNumber === 0)
         return display;
 
       gLastNumber *= -1;
@@ -189,7 +194,9 @@ function calcFactory(spec) {
     },
 
     calculate (equation) {
-      for(var i = 1; i < equation.length; i += 2) {
+      console.log(equation);
+      // Loop thru operations stored in the array.
+      for(var i = 1; i < equation.length-1; i += 2) {
         // Turn number on right to a negative number if operation is a substraction
         // 1 - 2 * 3 =>  1 + (-2) * 3
         if (equation[i] === '-') {
@@ -215,14 +222,19 @@ function calcFactory(spec) {
         // So we have [0][+][result]
         equation[i-1] = 0;
         equation[i] = '+';
+        console.log(equation);
       }
 
       // Now our array should only have + operations
-      for(i = 1; i < equation.length; i += 2) {
-        equation[i+1] = equation[i-1] + equation[i+1];
+      let sum = equation[0];
+      for(i = 2; i < equation.length; i += 2) {
+        sum += equation[i];
       }
+      // for(i = 1; i < equation.length-1; i += 2) {
+      //   equation[i+1] = equation[i-1] + equation[i+1];
+      // }
 
-      return equation.pop();
+      return sum;
     },
 
     equals (display) {
