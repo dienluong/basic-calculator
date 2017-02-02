@@ -14,14 +14,14 @@ Digit:
   xFollowing decimal:  " "
   xFollowing op:  add current number and op to master array, clear display & number, append digit (to blank), display digit
   xFollowing equal: append digit to result
-            AC: Same as beginning
-  Following CE: Same as beginning
+  xFollowing AC: Same as beginning
+  xFollowing CE: Same as beginning
 
 
 Operation: !!!! TO BE REVISED
   xBeginning: do nothing
   xFollowing digit: save as current op
-  Following op: reset previous active op and activate current op, or toggles op
+  xFollowing op: reset previous active op and activate current op, or toggles op
   xFollowing plusminus: " "
   xFollowing decimal: " "
   xFollowing equal: save as current op
@@ -31,12 +31,13 @@ Operation: !!!! TO BE REVISED
 PlusMinus:
   xBeginning: do nothing
   xFollowing digit: toggle sign of current number, display
+    xDisplayed number is 0: do nothing
   xFollowing op:  " "
   xFollowing plusminus: " "
   xFollowing decimal: " "
   xFollowing equal: toggle sign of result (= current number), display
-  Following AC: do nothing
-  Following CE: do nothing
+  xFollowing AC: do nothing
+  xFollowing CE: do nothing
 
 Decimal Point:
   xBeginning: add to current number (0), display
@@ -47,8 +48,8 @@ Decimal Point:
                       if current number is "0.", remove decimal point;
                       otherwise, nothing.
   xFollowing equal: if no decimal yet, add to result, display
-  Following AC: add to current number (0), display
-  Following CE: add to current number (0), display
+  xFollowing AC: add to current number (0), display
+  xFollowing CE: add to current number (0), display
 
 Equal:
   xBeginning: do nothing
@@ -98,5 +99,7 @@ Active Op key resets when:
   when equals key pressed
   when AC key pressed
   when CE key pressed
+
+Digit mode VS Operation mode
 
 Division by zero

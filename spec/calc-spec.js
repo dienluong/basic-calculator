@@ -25,7 +25,13 @@ describe('calculator', function () {
   });
 
   describe('digit key', function () {
-    it('displays digit when pressed at fresh start (blank display)', function(done) {
+    it('displays digit when pressed after AC, CE or at fresh start (blank display)', function(done) {
+      $('button:contains("0")').trigger('click');
+      expect($(DISPLAY)).toHaveText('0');
+      $('button:contains("AC")').trigger('click');
+      $('button:contains("9")').trigger('click');
+      expect($(DISPLAY)).toHaveText('9');
+      $('button:contains("CE")').trigger('click');
       $('button:contains("0")').trigger('click');
       expect($(DISPLAY)).toHaveText('0');
       done();
@@ -61,6 +67,9 @@ describe('calculator', function () {
 
     it('does not display leading zero when followed by non-zero digit', function(done) {
       $('button:contains("0")').trigger('click');
+      expect($(DISPLAY)).toHaveText('0');
+      $('button:contains("0")').trigger('click');
+      expect($(DISPLAY)).toHaveText('0');
       $('button:contains("5")').trigger('click');
       expect($(DISPLAY)).toHaveText('5');
       done();
@@ -121,7 +130,7 @@ describe('calculator', function () {
       // Toggles..
       $(`button:contains(${MULTIPLICATION})`).trigger('click');
       expect(this.calculator.getLastOp()).toBe("");
-      expect($(`button:contains(${MULTIPLICATION})`)).not.toHaveClass("active");
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
       // Should return to digits entry mode...
       $('button:contains(".")').trigger('click');
       $('button:contains("7")').trigger('click');
@@ -136,7 +145,7 @@ describe('calculator', function () {
       $('button:contains("-")').trigger('click');
       expect($(DISPLAY)).toHaveText('-8');
       expect(this.calculator.getLastOp()).toBe("-");
-      // expect($('button:contains("-")')).toHaveClass("active");
+      expect($('button:contains("-")')).toHaveClass("active");
       done();
     });
 
@@ -146,7 +155,7 @@ describe('calculator', function () {
       $('button:contains("+")').trigger('click');
       expect($(DISPLAY)).toHaveText('9.');
       expect(this.calculator.getLastOp()).toBe("+");
-      // expect($('button:contains("+")')).toHaveClass("active");
+      expect($('button:contains("+")')).toHaveClass("active");
       done();
     });
 
@@ -157,20 +166,29 @@ describe('calculator', function () {
       $('button:contains("=")').trigger('click');
       $('button:contains("-")').trigger('click');
       expect(this.calculator.getLastOp()).toBe("-");
-      // expect($('button:contains("-")')).toHaveClass("active");
+      expect($('button:contains("-")')).toHaveClass("active");
       expect($(DISPLAY)).toHaveText('4.5');
       done();
     });
   });
 
   describe('plus-minus key', function() {
-    it('displays nothing when pressed at fresh start (blank display)', function() {
+    it('displays nothing when pressed after CE, AC or at fresh start (blank display)', function() {
       $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      expect($(DISPLAY)).toBeEmpty();
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      expect($(DISPLAY)).toBeEmpty();
+      $('button:contains("0")').trigger('click');
+      $('button:contains("AC")').trigger('click');
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      expect($(DISPLAY)).toBeEmpty();
+      $('button:contains("1")').trigger('click');
+      $('button:contains("CE")').trigger('click');
       $(`button:contains(${PLUS_MINUS})`).trigger('click');
       expect($(DISPLAY)).toBeEmpty();
     });
 
-    it('toggles negative sign on displayed number, if pressed after digit/op/decimal/plus-minus key', function() {
+    it('toggles negative sign on displayed none-zero number, if pressed after digit/op/decimal/plus-minus key', function() {
       // Pressed 0, 1, +/-
       $('button:contains("0")').trigger('click');
       $('button:contains("1")').trigger('click');
@@ -192,7 +210,20 @@ describe('calculator', function () {
       expect($(DISPLAY)).toHaveText("-1.2");
     });
 
-    it('toggles negative sign on displayed number, if pressed after = key', function() {
+    it('does nothing if displayed number/result is zero', function() {
+      $('button:contains("0")').trigger('click');
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      expect($(DISPLAY)).toHaveText("0");
+      $('button:contains("3")').trigger('click');
+      $('button:contains("-")').trigger('click');
+      $('button:contains("3")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText("0");
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      expect($(DISPLAY)).toHaveText("0");
+    });
+
+    it('toggles negative sign on displayed non-zero result, if pressed after = key', function() {
       $('button:contains("0")').trigger('click');
       $('button:contains("4")').trigger('click');
       $(`button:contains(${MULTIPLICATION})`).trigger('click');
@@ -204,7 +235,15 @@ describe('calculator', function () {
   });
 
   describe('decimal-point key', function() {
-    it('displays "0." when at fresh start (blank display)', function() {
+    it('displays "0." when pressed after CE or AC, or at fresh start (blank display)', function() {
+      $('button:contains(".")').trigger('click');
+      expect($(DISPLAY)).toHaveText("0.");
+      $('button:contains("5")').trigger('click');
+      $('button:contains("CE")').trigger('click');
+      $('button:contains(".")').trigger('click');
+      expect($(DISPLAY)).toHaveText("0.");
+      $('button:contains("6")').trigger('click');
+      $('button:contains("AC")').trigger('click');
       $('button:contains(".")').trigger('click');
       expect($(DISPLAY)).toHaveText("0.");
     });
@@ -283,7 +322,7 @@ describe('calculator', function () {
       expect(this.calculator.getLastNumber()).toBeNull();
       expect(this.calculator.getHasDecimal()).toBe(false);
       expect(this.calculator.getLastOp()).toBe("");
-      // expect($('button:contains("+")')).not.toHaveClass("active");
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
     });
 
     it('clears display, active op and current number when pressed after op key', function() {
@@ -299,7 +338,7 @@ describe('calculator', function () {
       expect(this.calculator.getLastNumber()).toBeNull();
       expect(this.calculator.getHasDecimal()).toBe(false);
       expect(this.calculator.getLastOp()).toBe("");
-      // expect($('button:contains("+")')).not.toHaveClass("active");
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
     });
 
     it('clears display, active op and current number when pressed after plus-minus key', function() {
@@ -313,7 +352,7 @@ describe('calculator', function () {
       expect(this.calculator.getLastNumber()).toBeNull();
       expect(this.calculator.getHasDecimal()).toBe(false);
       expect(this.calculator.getLastOp()).toBe("");
-      // expect($('button:contains("+")')).not.toHaveClass("active");
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
     });
 
     it('clears display, active op and current number when pressed after decimal-point key', function() {
@@ -329,7 +368,7 @@ describe('calculator', function () {
       expect(this.calculator.getLastNumber()).toBeNull();
       expect(this.calculator.getHasDecimal()).toBe(false);
       expect(this.calculator.getLastOp()).toBe("");
-      // expect($('button:contains("+")')).not.toHaveClass("active");
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
     });
 
   });
@@ -406,6 +445,26 @@ describe('calculator', function () {
       expect(this.calculator.getLastNumber()).toBe(20.53);
       expect(this.calculator.getLastOp()).toBe("");
       expect($('button')).not.toBeMatchedBy('button[class="active"]');
+    });
+
+    it('starts calculations and displays result, when pressed after CE key', function() {
+      $('button:contains("0")').trigger('click');
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      $('button:contains("1")').trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains(".")').trigger('click');
+      $('button:contains("-")').trigger('click');
+      $('button:contains("-")').trigger('click');
+      $('button:contains("+")').trigger('click');
+      $('button:contains(".")').trigger('click');
+      $('button:contains("0")').trigger('click');
+      $('button:contains("3")').trigger('click');
+      $('button:contains("-")').trigger('click');
+      $('button:contains("2")').trigger('click');
+      $('button:contains("CE")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect($(DISPLAY)).toHaveText("12.03");
+      expect(this.calculator.getLastNumber()).toBe(12.03);
     });
   });
 
