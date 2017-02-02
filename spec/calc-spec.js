@@ -93,6 +93,7 @@ describe('calculator', function () {
       expect($(DISPLAY)).toBeEmpty();
       $(`button:contains(${MULTIPLICATION})`).trigger('click');
       expect($(DISPLAY)).toBeEmpty();
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
       done();
     });
 
@@ -101,18 +102,30 @@ describe('calculator', function () {
       $(`button:contains(${DIVISION})`).trigger('click');
       expect($(DISPLAY)).toHaveText('6');
       expect(this.calculator.getLastOp()).toBe("\u00F7");
-      // expect($(`button:contains(${DIVISION})`)).toHaveClass("active");
+      expect($(`button:contains(${DIVISION})`)).toHaveClass("active");
       done();
     });
 
-    it('saves pressed op key as current op, highlights op key, if following op key', function(done) {
+    it('resets previous active op key, set current active op key or toggles if pressing the same op key', function(done) {
       // Pressed 7, division, multiplication
       $('button:contains("7")').trigger('click');
       $(`button:contains(${DIVISION})`).trigger('click');
+      expect(this.calculator.getLastOp()).toBe(DIVISION);
+      expect($(`button:contains(${DIVISION})`)).toHaveClass("active");
       $(`button:contains(${MULTIPLICATION})`).trigger('click');
+      // Resets division op key and sets multiplication op key
       expect($(DISPLAY)).toHaveText('7');
       expect(this.calculator.getLastOp()).toBe(MULTIPLICATION);
-      // expect($(`button:contains(${MULTIPLICATION})`)).toHaveClass("active");
+      expect($(`button:contains(${DIVISION})`)).not.toHaveClass("active");
+      expect($(`button:contains(${MULTIPLICATION})`)).toHaveClass("active");
+      // Toggles..
+      $(`button:contains(${MULTIPLICATION})`).trigger('click');
+      expect(this.calculator.getLastOp()).toBe("");
+      expect($(`button:contains(${MULTIPLICATION})`)).not.toHaveClass("active");
+      // Should return to digits entry mode...
+      $('button:contains(".")').trigger('click');
+      $('button:contains("7")').trigger('click');
+      expect($(DISPLAY)).toHaveText('7.7');
       done();
     });
 
@@ -338,7 +351,7 @@ describe('calculator', function () {
       // The test itself:
       $('button:contains("AC")').trigger('click');
       expect($(DISPLAY)).toBeEmpty();
-      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
       expect(this.calculator.getLastNumber()).toBeNull();
       expect(this.calculator.getLastOp()).toBe("");
       expect(this.calculator.getEntriesArray()).toEqual([]);
@@ -356,7 +369,7 @@ describe('calculator', function () {
       expect(this.calculator.getLastNumber()).toBe(null);
       expect(this.calculator.getLastEntryType()).toBe("digit");
       expect(this.calculator.getHasDecimal()).toBe(false);
-      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
     });
 
     it('starts calculation and displays result, when pressed after digit/plus-minus/decimal key', function() {
@@ -392,7 +405,7 @@ describe('calculator', function () {
       expect($(DISPLAY)).toHaveText("20.53");
       expect(this.calculator.getLastNumber()).toBe(20.53);
       expect(this.calculator.getLastOp()).toBe("");
-      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
     });
   });
 
@@ -510,39 +523,39 @@ describe('calculator', function () {
     it('resets when digit/plus-minus/equals/CE/AC key is pressed', function() {
       $('button:contains("9")').trigger('click');
       $(`button:contains(${DIVISION})`).trigger('click');
-      expect($(`button:contain(${DIVISION})`)).toHaveClass('active');
+      expect($(`button:contains(${DIVISION})`)).toHaveClass('active');
       // Active op resets when digit key pressed
       $('button:contains("1")').trigger('click');
-      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
       expect(this.calculator.getLastOp()).toBe("");
 
       $(`button:contains(${MULTIPLICATION})`).trigger('click');
-      expect($(`button:contain(${MULTIPLICATION})`)).toHaveClass('active');
+      expect($(`button:contains(${MULTIPLICATION})`)).toHaveClass('active');
       // Active op resets when plus-minus key pressed
       $(`button:contains(${PLUS_MINUS})`).trigger('click');
-      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
       expect(this.calculator.getLastOp()).toBe("");
 
       $('button:contains("+")').trigger('click');
-      expect($("button:contain('+')")).toHaveClass('active');
+      expect($("button:contains('+')")).toHaveClass('active');
       // Active op resets when = key pressed
       $('button:contains("=")').trigger('click');
-      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
       expect(this.calculator.getLastOp()).toBe("");
 
       $('button:contains("-")').trigger('click');
-      expect($("button:contain('-')")).toHaveClass('active');
+      expect($("button:contains('-')")).toHaveClass('active');
       // Active op resets when CE key pressed
       $('button:contains("CE")').trigger('click');
-      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
       expect(this.calculator.getLastOp()).toBe("");
 
       $('button:contains("0")').trigger('click');
       $(`button:contains(${DIVISION})`).trigger('click');
-      expect($(`button:contain(${DIVISION})`)).toHaveClass('active');
+      expect($(`button:contains(${DIVISION})`)).toHaveClass('active');
       // Active op resets when AC key pressed
       $('button:contains("AC")').trigger('click');
-      expect($('button')).not.toBeMatchedBy('button[class]');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
       expect(this.calculator.getLastOp()).toBe("");
     });
   });
