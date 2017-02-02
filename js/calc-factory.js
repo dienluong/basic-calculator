@@ -83,21 +83,29 @@ function calcFactory(spec) {
       if (gLastNumber === null)
         return display;
 
+      if (gLastOp !== op) {
+        $(`button:contains(${gLastOp})`).removeClass('active');
+      }
+
       gLastOp = op;
+      $(`button:contains(${gLastOp})`).toggleClass('active');
       gLastEntryType = 'operation';
       return display;
     },
 
     plusminus (display) {
+      $(`button:contains(${gLastOp})`).removeClass('active');
       if (gLastNumber === null)
         return display;
 
       gLastNumber *= -1;
       gLastEntryType = "digit";
+      gLastOp = "";
       return display[0] === '-' ? display.slice(1): '-' + display;
     },
 
     decimal (display) {
+      $(`button:contains(${gLastOp})`).removeClass('active');
       if (gLastEntryType === 'operation') {
         if (gLastOp && gLastNumber !== null) {
           gEntriesArray.push(gLastNumber);
@@ -132,6 +140,7 @@ function calcFactory(spec) {
     },
 
     digit (display, dgt) {
+      $(`button:contains(${gLastOp})`).removeClass('active');
       if (gLastEntryType === 'operation') {
         if (gLastOp && gLastNumber !== null) {
           gEntriesArray.push(gLastNumber);
@@ -161,6 +170,8 @@ function calcFactory(spec) {
         gLastEntryType = "digit";
         gLastOp = "";
       }
+
+      $(`button:contains(${gLastOp})`).removeClass('active');
       return ""; // returns "" as display
     },
 
@@ -171,13 +182,14 @@ function calcFactory(spec) {
         gLastEntryType = "digit";
         gLastOp = "";
       }
+
+      $(`button:contains(${gLastOp})`).removeClass('active');
       gEntriesArray = [];
       return ""; // returns "" as display
     },
 
     calculate (equation) {
       for(var i = 1; i < equation.length; i += 2) {
-      console.log(equation);
         // Turn number on right to a negative number if operation is a substraction
         // 1 - 2 * 3 =>  1 + (-2) * 3
         if (equation[i] === '-') {
@@ -203,13 +215,10 @@ function calcFactory(spec) {
         // So we have [0][+][result]
         equation[i-1] = 0;
         equation[i] = '+';
-
-      console.log(equation);
       }
 
       // Now our array should only have + operations
       for(i = 1; i < equation.length; i += 2) {
-        console.log(equation);
         equation[i+1] = equation[i-1] + equation[i+1];
       }
 
@@ -217,6 +226,7 @@ function calcFactory(spec) {
     },
 
     equals (display) {
+      $(`button:contains(${gLastOp})`).removeClass('active');
       let finalResult = 0;
       if (gLastNumber !== null)
         gEntriesArray.push(gLastNumber);
@@ -266,8 +276,6 @@ function calcFactory(spec) {
             default:  //digit key
                       nextDisplay = this.digit(currentDisplay, e.target.textContent);
           }
-          // console.log("Entries: ", gEntriesArray);
-          // console.log("Last entry, number, op: ", gLastEntryType + " / " + gLastNumber + " / " + gLastOp);
           this.updateDisplay(DISPLAY, nextDisplay);
         }
         e.stopPropagation();
