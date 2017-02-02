@@ -18,10 +18,10 @@ Digit:
   Following CE: Same as beginning
 
 
-Operation:
+Operation: !!!! TO BE REVISED
   xBeginning: do nothing
   xFollowing digit: save as current op
-  xFollowing op:  " "
+  Following op: reset previous active op and activate current op, or toggles op
   xFollowing plusminus: " "
   xFollowing decimal: " "
   xFollowing equal: save as current op
