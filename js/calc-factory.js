@@ -69,18 +69,13 @@ function calcFactory(spec) {
       return gHasDecimal;
     },
 
-    // Set or get display area text
+    // Set and get display area text
     updateDisplay (target, str) {
-      try {
         var container = $(target);
-        if (str === undefined)
-          return container.text() || "";
-        else
+        if (str !== undefined)
           container.text(str);
-      }
-      catch(err) {
-        alert('Error updating display: '+ err);
-      }
+
+        return container.text();
     },
 
     operation (display, op) {
