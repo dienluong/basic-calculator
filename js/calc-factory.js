@@ -230,34 +230,34 @@ function calcFactory(spec) {
       for(i = 2; i < equation.length; i += 2) {
         sum += equation[i];
       }
-      // for(i = 1; i < equation.length-1; i += 2) {
-      //   equation[i+1] = equation[i-1] + equation[i+1];
-      // }
 
       return sum;
     },
 
     equals (display) {
       $(`button:contains(${gLastOp})`).removeClass('active');
-      let finalResult = 0;
+      let finalResult = null;
+
+      // If empty, nothing to do
+      if (!gEntriesArray.length)
+        return display;
+
       if (gLastNumber !== null)
         gEntriesArray.push(gLastNumber);
 
       // If entries contain at least one operation, then do calculation
       if (gEntriesArray.length >= 3) {
         finalResult = this.calculate(gEntriesArray);
-        if (finalResult !== undefined) {
-          display = finalResult.toString();
-        }
       }
       else
-        finalResult = gLastNumber;
+        finalResult = gEntriesArray[0];
 
+      display = finalResult.toString();
       gEntriesArray   = [];
       gLastNumber     = finalResult;
       gLastEntryType  = "digit";
-      gHasDecimal     = (finalResult % 1 !== 0);
       gLastOp         = "";
+      gHasDecimal     = (finalResult % 1 !== 0);
       return display;
     },
 
