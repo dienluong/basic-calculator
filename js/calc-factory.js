@@ -71,11 +71,16 @@ function calcFactory(spec) {
 
     // Set or get display area text
     updateDisplay (target, str) {
-      var container = $(target);
-      if (str === undefined)
-        return container.text() || "";
-      else
-        container.text(str);
+      try {
+        var container = $(target);
+        if (str === undefined)
+          return container.text() || "";
+        else
+          container.text(str);
+      }
+      catch(err) {
+        alert('Error updating display: '+ err);
+      }
     },
 
     operation (display, op) {
@@ -288,6 +293,12 @@ function calcFactory(spec) {
             default:  //digit key
                       nextDisplay = this.digit(currentDisplay, e.target.textContent);
           }
+
+          if(nextDisplay === 'Infinity') {
+            alert('Result is Infinity. Resetting calculator. Press OK to continue...');
+            nextDisplay = this.clearAll("");
+          }
+
           this.updateDisplay(DISPLAY, nextDisplay);
         }
         e.stopPropagation();
