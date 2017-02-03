@@ -53,21 +53,22 @@ Decimal Point:
 
 Equal:
   xBeginning: do nothing
-  xFollowing digit: process master array, calculate, display result, save result as current number
-  Following plusminus: " "
-  Following decimal: " " 
-  xFollowing op: discard last op entry, add current number to master array, process, calculate and display result.
-  Following CE: " "
-  Following equal: do nothing
-  Following AC: do nothing
+  xFollowing digit: save last number entered, calculate, display result, save result as current number
+  xFollowing plusminus: " "
+  xFollowing decimal: " " 
+  xFollowing op: discard last op entry, save last number entered, calculate and display result, save result as current number
+  xFollowing CE: discard last op, starts calculation and display result, save result as current number
+  *** Do calculations only if there are at least two numbers and one op entered.
+  xFollowing AC: do nothing
+  xFollowing equal: do nothing
 
 AC:
-  Beginning: do nothing
+  xBeginning: do nothing
   xFollowing digit: reset everything
   xFollowing op: " "
   xFollowing plusminus: " "
   xFollowing decimal: " " 
-  Following equal: " "
+  xFollowing equal: " "
   xFollowing CE: " "
   xFollowing AC: " "
 
@@ -77,7 +78,7 @@ CE:
   xFollowing op: clear current number, decimal, display and active op
   xFollowing plusminus: " "
   xFollowing decimal: " " 
-  Following equal: clear result (= current number), current op, decimal, clear display
+  xFollowing equal: clear result (= current number), current op, decimal, clear display
   Following CE: do nothing
   Following AC: do nothing
 
