@@ -289,7 +289,7 @@ function calcFactory(spec) {
                       nextDisplay = this.digit(currentDisplay, e.target.textContent);
           }
 
-          if(nextDisplay === 'Infinity') {
+          if(nextDisplay === 'Infinity' || nextDisplay === '-Infinity') {
             alert('Result is Infinity. Resetting calculator. Press OK to continue...');
             nextDisplay = this.clearAll("");
           }
