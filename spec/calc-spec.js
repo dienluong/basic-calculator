@@ -807,4 +807,58 @@ describe('calculator', function () {
       expect(this.calculator.getLastEntryType()).toBe("digit");
     });
   });
+
+  describe('upon encountering Infinity or -Infinity result', function() {
+    beforeEach(function() {
+      // Sets up spy...
+      spyOn(window, 'alert');
+    });
+
+    it('alerts and resets', function() {
+      $('button:contains("2")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("0")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect(window.alert).toHaveBeenCalled();
+      expect($(DISPLAY)).toBeEmpty();
+      expect($('button')).not.toHaveClass('active');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
+      $('button:contains("3")').trigger('click');
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("0")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect(window.alert).toHaveBeenCalled();
+      expect($(DISPLAY)).toBeEmpty();
+      expect($('button')).not.toHaveClass('active');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
+    });
+  });
+
+  describe('upon encountering NaN result (e.g. 0 / 0 operation)', function() {
+    beforeEach(function() {
+      // Sets up spy...
+      spyOn(window, 'alert');
+    });
+
+    it('alerts and resets', function() {
+      $('button:contains("0")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("0")').trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect(window.alert).toHaveBeenCalled();
+      expect($(DISPLAY)).toBeEmpty();
+      expect($('button')).not.toHaveClass('active');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
+      $('button:contains("0")').trigger('click');
+      $(`button:contains(${DIVISION})`).trigger('click');
+      $('button:contains("0")').trigger('click');
+      $(`button:contains(${PLUS_MINUS})`).trigger('click');
+      $('button:contains("=")').trigger('click');
+      expect(window.alert).toHaveBeenCalled();
+      expect($(DISPLAY)).toBeEmpty();
+      expect($('button')).not.toHaveClass('active');
+      expect($('button')).not.toBeMatchedBy('button[class="active"]');
+    });
+  });
 });

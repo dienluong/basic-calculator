@@ -104,3 +104,5 @@ xActive Op key resets when:
 xDigit mode VS Operation mode
 
 xDivision by zero
+  xInfinity or -Infinity result
+  xNaN result
