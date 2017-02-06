@@ -69,13 +69,13 @@ function calcFactory(spec) {
       return gHasDecimal;
     },
 
-    // Set or get display area text
+    // Set and get display area text
     updateDisplay (target, str) {
-      var container = $(target);
-      if (str === undefined)
-        return container.text() || "";
-      else
-        container.text(str);
+        var container = $(target);
+        if (str !== undefined)
+          container.text(str);
+
+        return container.text();
     },
 
     operation (display, op) {
@@ -83,21 +83,34 @@ function calcFactory(spec) {
       if (gLastNumber === null)
         return display;
 
-      gLastOp = op;
-      gLastEntryType = 'operation';
+      if (gLastOp !== op) {
+        // If diff op key pressed, then switch to that op
+        $(`button:contains(${gLastOp})`).removeClass('active');
+        gLastOp = op;
+        gLastEntryType = 'operation';
+      }
+      else { // If op key pressed was already active, then deactivate it and go back to "digit entry mode".
+        gLastOp = "";
+        gLastEntryType = 'digit';
+      }
+
+      $(`button:contains(${op})`).toggleClass('active');
       return display;
     },
 
     plusminus (display) {
-      if (gLastNumber === null)
+      $(`button:contains(${gLastOp})`).removeClass('active');
+      if (gLastNumber === null || gLastNumber === 0)
         return display;
 
       gLastNumber *= -1;
       gLastEntryType = "digit";
+      gLastOp = "";
       return display[0] === '-' ? display.slice(1): '-' + display;
     },
 
     decimal (display) {
+      $(`button:contains(${gLastOp})`).removeClass('active');
       if (gLastEntryType === 'operation') {
         if (gLastOp && gLastNumber !== null) {
           gEntriesArray.push(gLastNumber);
@@ -132,6 +145,7 @@ function calcFactory(spec) {
     },
 
     digit (display, dgt) {
+      $(`button:contains(${gLastOp})`).removeClass('active');
       if (gLastEntryType === 'operation') {
         if (gLastOp && gLastNumber !== null) {
           gEntriesArray.push(gLastNumber);
@@ -161,6 +175,8 @@ function calcFactory(spec) {
         gLastEntryType = "digit";
         gLastOp = "";
       }
+
+      $(`button:contains(${gLastOp})`).removeClass('active');
       return ""; // returns "" as display
     },
 
@@ -171,13 +187,16 @@ function calcFactory(spec) {
         gLastEntryType = "digit";
         gLastOp = "";
       }
+
+      $(`button:contains(${gLastOp})`).removeClass('active');
       gEntriesArray = [];
       return ""; // returns "" as display
     },
 
     calculate (equation) {
-      for(var i = 1; i < equation.length; i += 2) {
       console.log(equation);
+      // Loop thru operations stored in the array.
+      for(var i = 1; i < equation.length-1; i += 2) {
         // Turn number on right to a negative number if operation is a substraction
         // 1 - 2 * 3 =>  1 + (-2) * 3
         if (equation[i] === '-') {
@@ -203,39 +222,42 @@ function calcFactory(spec) {
         // So we have [0][+][result]
         equation[i-1] = 0;
         equation[i] = '+';
-
-      console.log(equation);
+        console.log(equation);
       }
 
       // Now our array should only have + operations
-      for(i = 1; i < equation.length; i += 2) {
-        console.log(equation);
-        equation[i+1] = equation[i-1] + equation[i+1];
+      let sum = equation[0];
+      for(i = 2; i < equation.length; i += 2) {
+        sum += equation[i];
       }
 
-      return equation.pop();
+      return sum;
     },
 
     equals (display) {
-      let finalResult = 0;
+      $(`button:contains(${gLastOp})`).removeClass('active');
+      let finalResult = null;
+
+      // If empty, nothing to do
+      if (!gEntriesArray.length)
+        return display;
+
       if (gLastNumber !== null)
         gEntriesArray.push(gLastNumber);
 
       // If entries contain at least one operation, then do calculation
       if (gEntriesArray.length >= 3) {
         finalResult = this.calculate(gEntriesArray);
-        if (finalResult !== undefined) {
-          display = finalResult.toString();
-        }
       }
       else
-        finalResult = gLastNumber;
+        finalResult = gEntriesArray[0];
 
+      display = finalResult.toString();
       gEntriesArray   = [];
       gLastNumber     = finalResult;
       gLastEntryType  = "digit";
-      gHasDecimal     = (finalResult % 1 !== 0);
       gLastOp         = "";
+      gHasDecimal     = (finalResult % 1 !== 0);
       return display;
     },
 
@@ -266,8 +288,12 @@ function calcFactory(spec) {
             default:  //digit key
                       nextDisplay = this.digit(currentDisplay, e.target.textContent);
           }
-          // console.log("Entries: ", gEntriesArray);
-          // console.log("Last entry, number, op: ", gLastEntryType + " / " + gLastNumber + " / " + gLastOp);
+
+          if(nextDisplay === 'Infinity') {
+            alert('Result is Infinity. Resetting calculator. Press OK to continue...');
+            nextDisplay = this.clearAll("");
+          }
+
           this.updateDisplay(DISPLAY, nextDisplay);
         }
         e.stopPropagation();
