@@ -293,6 +293,10 @@ function calcFactory(spec) {
             alert('Result is Infinity. Resetting calculator. Press OK to continue...');
             nextDisplay = this.clearAll("");
           }
+          else if (nextDisplay === 'NaN') {
+            alert('Result is NaN. Resetting calculator. Press OK to continue...');
+            nextDisplay = this.clearAll("");
+          }
 
           this.updateDisplay(DISPLAY, nextDisplay);
         }
