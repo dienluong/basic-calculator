@@ -25,8 +25,8 @@ Operation: !!!! TO BE REVISED
   xFollowing plusminus: " "
   xFollowing decimal: " "
   xFollowing equal: save as current op
-  Following AC: do nothing
-  Following CE: do nothing
+  xFollowing AC: do nothing
+  xFollowing CE: do nothing
 
 PlusMinus:
   xBeginning: do nothing
@@ -79,8 +79,8 @@ CE:
   xFollowing plusminus: " "
   xFollowing decimal: " " 
   xFollowing equal: clear result (= current number), current op, decimal, clear display
-  Following CE: do nothing
-  Following AC: do nothing
+  xFollowing CE: do nothing
+  xFollowing AC: do nothing
 
 xCalculations:
   -1 + 2 = 1
@@ -94,13 +94,13 @@ xCalculations:
   4 x 2 - 16 = -8
   14 / 7 + 8 = 10
 
-Active Op key resets when:
+xActive Op key resets when:
   when digit key pressed
   when plusminus key pressed
   when equals key pressed
   when AC key pressed
   when CE key pressed
 
-Digit mode VS Operation mode
+xDigit mode VS Operation mode
 
-Division by zero
+xDivision by zero
