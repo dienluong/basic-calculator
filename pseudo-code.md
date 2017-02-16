@@ -1,12 +1,3 @@
-Digit
-Operation
-PlusMinus
-Decimal Point
-equal
-AC
-CE
-
-
 Digit:
   xBeginning: append digit (to blank), display digit.
   xFollowing digit: append digit to current number, display number; if following zero, remove zero before displaying.
@@ -106,3 +97,10 @@ xDigit mode VS Operation mode
 xDivision by zero
   xInfinity or -Infinity result
   xNaN result
+
+Display of Inputs
+    Number not added to list when op key pressed
+    Number and op key added when digit key pressed subsequently
+    Number and op key added when decimal-point key pressed subsequently
+    Number and op key added when = key pressed subsequently
+    
