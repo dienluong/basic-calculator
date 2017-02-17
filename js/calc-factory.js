@@ -2,6 +2,7 @@
 
 function calcFactory(spec) {
   const DISPLAY = document.querySelector(spec.display);
+  const INPUT_LIST = document.querySelector(spec.inputList);
   const BUTTONS = document.querySelector(spec.buttons);
   const MULTIPLICATION = '\u00D7';
   const DIVISION       = '\u00F7';
@@ -18,14 +19,19 @@ function calcFactory(spec) {
         throw new Error("Invalid initialization parameter: buttons.");
       if (!DISPLAY)
         throw new Error("Invalid initialization parameter: display.");
+      if (!INPUT_LIST)
+        throw new Error('Invalid init parameter: inputList');
       $(BUTTONS).off('click.calculator', this.buttonPressHandler.bind(this));
       $(BUTTONS).on('click.calculator', this.buttonPressHandler.bind(this));
       // BUTTONS.removeEventListener('click', this.buttonPressHandler.bind(this));
       // BUTTONS.addEventListener("click", this.buttonPressHandler.bind(this));
     },
 
-    addToEntriesArray (entry) {
+    addToEntriesArray (entry, fn) {
       gEntriesArray.push(entry);
+      if (typeof fn === 'function') {
+        return fn(entry);
+      }
     },
 
     clearEntriesArray () {
@@ -78,6 +84,18 @@ function calcFactory(spec) {
         return container.text();
     },
 
+    updateInputList(str) {
+      let container = $(INPUT_LIST);
+      if (str !== undefined)
+        container.append(`<p>${str}</p>`);
+
+      return container;
+    },
+
+    clearInputList() {
+      $(INPUT_LIST).empty();
+    },
+
     operation (display, op) {
       // if no digits entered previously, do nothing.
       if (gLastNumber === null)
@@ -113,8 +131,10 @@ function calcFactory(spec) {
       $(`button:contains(${gLastOp})`).removeClass('active');
       if (gLastEntryType === 'operation') {
         if (gLastOp && gLastNumber !== null) {
-          gEntriesArray.push(gLastNumber);
-          gEntriesArray.push(gLastOp);
+          // gEntriesArray.push(gLastNumber);
+          // gEntriesArray.push(gLastOp);
+          this.addToEntriesArray(gLastNumber, this.updateInputList);
+          this.addToEntriesArray(gLastOp, this.updateInputList);
         }
         display = "0.";
         gHasDecimal = true;
@@ -148,8 +168,10 @@ function calcFactory(spec) {
       $(`button:contains(${gLastOp})`).removeClass('active');
       if (gLastEntryType === 'operation') {
         if (gLastOp && gLastNumber !== null) {
-          gEntriesArray.push(gLastNumber);
-          gEntriesArray.push(gLastOp);
+          // gEntriesArray.push(gLastNumber);
+          // gEntriesArray.push(gLastOp);
+          this.addToEntriesArray(gLastNumber, this.updateInputList);
+          this.addToEntriesArray(gLastOp, this.updateInputList);
         }
         display = dgt;
         gHasDecimal = false;
@@ -190,6 +212,7 @@ function calcFactory(spec) {
 
       $(`button:contains(${gLastOp})`).removeClass('active');
       gEntriesArray = [];
+      this.clearInputList();
       return ""; // returns "" as display
     },
 
@@ -197,7 +220,7 @@ function calcFactory(spec) {
       console.log(equation);
       // Loop thru operations stored in the array.
       for(var i = 1; i < equation.length-1; i += 2) {
-        // Turn number on right to a negative number if operation is a substraction
+        // Turn number on right to a negative number if operation is a subtraction
         // 1 - 2 * 3 =>  1 + (-2) * 3
         if (equation[i] === '-') {
           equation[i+1] *= -1;
@@ -243,7 +266,8 @@ function calcFactory(spec) {
         return display;
 
       if (gLastNumber !== null)
-        gEntriesArray.push(gLastNumber);
+        // gEntriesArray.push(gLastNumber);
+        this.addToEntriesArray(gLastNumber, this.updateInputList);
 
       // If entries contain at least one operation, then do calculation
       if (gEntriesArray.length >= 3) {
@@ -254,6 +278,7 @@ function calcFactory(spec) {
 
       display = finalResult.toString();
       gEntriesArray   = [];
+      this.clearInputList();
       gLastNumber     = finalResult;
       gLastEntryType  = "digit";
       gLastOp         = "";
