@@ -84,10 +84,11 @@ function calcFactory(spec) {
         return container.text();
     },
 
-    updateInputList(str) {
-      let container = $(INPUT_LIST);
+    updateInputList(target, str) {
+      let container = $(target);
       if (str !== undefined)
-        container.append(`<p>${str}</p>`);
+        // Sanitizes str and appends...
+        container.append('<p>' + $("<div>").text(str).html() + '</p>');
 
       return container;
     },
@@ -133,8 +134,8 @@ function calcFactory(spec) {
         if (gLastOp && gLastNumber !== null) {
           // gEntriesArray.push(gLastNumber);
           // gEntriesArray.push(gLastOp);
-          this.addToEntriesArray(gLastNumber, this.updateInputList);
-          this.addToEntriesArray(gLastOp, this.updateInputList);
+          this.addToEntriesArray(gLastNumber, this.updateInputList.bind(this, INPUT_LIST));
+          this.addToEntriesArray(gLastOp, this.updateInputList.bind(this, INPUT_LIST));
         }
         display = "0.";
         gHasDecimal = true;
@@ -170,8 +171,8 @@ function calcFactory(spec) {
         if (gLastOp && gLastNumber !== null) {
           // gEntriesArray.push(gLastNumber);
           // gEntriesArray.push(gLastOp);
-          this.addToEntriesArray(gLastNumber, this.updateInputList);
-          this.addToEntriesArray(gLastOp, this.updateInputList);
+          this.addToEntriesArray(gLastNumber, this.updateInputList.bind(this, INPUT_LIST));
+          this.addToEntriesArray(gLastOp, this.updateInputList.bind(this, INPUT_LIST));
         }
         display = dgt;
         gHasDecimal = false;
@@ -240,7 +241,7 @@ function calcFactory(spec) {
         // Do multiplication of numbers on the left and on the right
         equation[i+1] = equation[i-1] * equation[i+1];
 
-        // Put result in rigt slot,
+        // Put result in right slot,
         // Put zero on the left and change operation to +
         // So we have [0][+][result]
         equation[i-1] = 0;
@@ -258,8 +259,11 @@ function calcFactory(spec) {
     },
 
     equals (display) {
-      $(`button:contains(${gLastOp})`).removeClass('active');
       let finalResult = null;
+      // Deactivate any selected op key
+      $(`button:contains(${gLastOp})`).removeClass('active');
+      gLastEntryType  = "digit";
+      gLastOp         = "";
 
       // If empty, nothing to do
       if (!gEntriesArray.length)
@@ -267,7 +271,7 @@ function calcFactory(spec) {
 
       if (gLastNumber !== null)
         // gEntriesArray.push(gLastNumber);
-        this.addToEntriesArray(gLastNumber, this.updateInputList);
+        this.addToEntriesArray(gLastNumber, this.updateInputList.bind(this, INPUT_LIST));
 
       // If entries contain at least one operation, then do calculation
       if (gEntriesArray.length >= 3) {
@@ -280,8 +284,6 @@ function calcFactory(spec) {
       gEntriesArray   = [];
       this.clearInputList();
       gLastNumber     = finalResult;
-      gLastEntryType  = "digit";
-      gLastOp         = "";
       gHasDecimal     = (finalResult % 1 !== 0);
       return display;
     },
@@ -299,7 +301,7 @@ function calcFactory(spec) {
                       nextDisplay = this.equals(currentDisplay);
                       break;
             case '+': //addition
-            case '-': //substraction
+            case '-': //subtraction
             case DIVISION: //division
             case MULTIPLICATION: //multiplication
                       nextDisplay = this.operation(currentDisplay, e.target.textContent);
