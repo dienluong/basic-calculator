@@ -35,7 +35,7 @@ Decimal Point:
   xFollowing digit: if no decimal yet, then add to current number, display; otherwise, do nothing
   xFollowing plusminus: " "
   xFollowing op: saves current number and op, then displays "0."
-  xFollowing decimal: if current number ends with decimal, then toggle decimal point, display; 
+  xFollowing decimal: if current number ends with decimal, then toggle decimal point, display;
                       if current number is "0.", remove decimal point;
                       otherwise, nothing.
   xFollowing equal: if no decimal yet, add to result, display
@@ -46,7 +46,7 @@ Equal:
   xBeginning: do nothing
   xFollowing digit: save last number entered, calculate, display result, save result as current number
   xFollowing plusminus: " "
-  xFollowing decimal: " " 
+  xFollowing decimal: " "
   xFollowing op: discard last op entry, save last number entered, calculate and display result, save result as current number
   xFollowing CE: discard last op, starts calculation and display result, save result as current number
   *** Do calculations only if there are at least two numbers and one op entered.
@@ -58,7 +58,7 @@ AC:
   xFollowing digit: reset everything
   xFollowing op: " "
   xFollowing plusminus: " "
-  xFollowing decimal: " " 
+  xFollowing decimal: " "
   xFollowing equal: " "
   xFollowing CE: " "
   xFollowing AC: " "
@@ -68,7 +68,7 @@ CE:
   xFollowing digit: clear current number, decimal, display and active op
   xFollowing op: clear current number, decimal, display and active op
   xFollowing plusminus: " "
-  xFollowing decimal: " " 
+  xFollowing decimal: " "
   xFollowing equal: clear result (= current number), current op, decimal, clear display
   xFollowing CE: do nothing
   xFollowing AC: do nothing
@@ -102,5 +102,5 @@ Display of Inputs
     Number not added to list when op key pressed
     Number and op key added when digit key pressed subsequently
     Number and op key added when decimal-point key pressed subsequently
-    Number and op key added when = key pressed subsequently
-    
+    is emptied when = key pressed
+
