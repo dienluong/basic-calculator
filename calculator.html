@@ -29,7 +29,7 @@
 <body>
 <div id="calcBody">
 <pre id="display"></pre>
-<div id="buttons">
+<div id="keyPanel">
 <div>
   <button>AC</button>
   <button>CE</button>
@@ -62,18 +62,11 @@
 </div>
 </div>
 <div id="inputList">
-  <p>one<br>
-    two<br>
-    two<br>
-    two<br>
-    two<br>
-    two<br>
-  </p>
 </div>
 <script src="js/calc-factory.js"></script>
 <script type="text/javascript">
   /* global calculator, calcFactory */
-  var calculator = calcFactory({ display: 'pre#display', buttons: 'div#buttons' });
+  var calculator = calcFactory({ display: 'pre#display', inputList: '#inputList', buttons: 'div#keyPanel' });
 </script>
 </body>
 </html>
