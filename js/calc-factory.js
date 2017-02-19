@@ -88,7 +88,7 @@ function calcFactory(spec) {
       let container = $(target);
       if (str !== undefined)
         // Sanitizes str and appends...
-        container.append('<p>' + $("<div>").text(str).html() + '</p>');
+        container.append($("<div>").text(str).html());
 
       return container;
     },
