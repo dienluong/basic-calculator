@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>My Ugly Calculator</title>
   <meta charset="utf-8" />
   <script
@@ -8,60 +11,54 @@
    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
    crossorigin="anonymous">
   </script>
+  <link rel="stylesheet" href="../../bootstrap-3.3.7-dist/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="stylesheets/calculator.css">
   <style type="text/css">
-    button {
-      font-family: 'courier new', monospace;
-      width: 5em;
-      height: 3em;
-    }
 
-    #display {
-      display: inline-block;
-      border: 3px solid gray;
-      height: 2em;
-      line-height: 2em;
-      min-width: 20em;
-      text-align: right;
-    }
   </style>
 </head>
 <body>
-<div id="calcBody">
-<pre id="display"></pre>
-<div id="keyPanel">
-<div>
-  <button>AC</button>
-  <button>CE</button>
-  <button>&plusmn;</button>
-  <button>&divide;</button>
-</div>
-<div>
-  <button>7</button>
-  <button>8</button>
-  <button>9</button>
-  <button>&times;</button>
-</div>
-<div>
-  <button>4</button>
-  <button>5</button>
-  <button>6</button>
-  <button>+</button>
-</div>
-<div>
-  <button>1</button>
-  <button>2</button>
-  <button>3</button>
-  <button>-</button>
-</div>
-<div>
-  <button>0</button>
-  <button>.</button>
-  <button>=</button>
-</div>
-</div>
-</div>
-<div id="inputList">
+<div class="container" id="calcBody">
+  <div class="well">
+    <!--<div class="row">-->
+      <pre id="inputList" class="center-block"></pre>
+    <!--</div>-->
+    <pre id="display" class="center-block"></pre>
+    <div>
+      <!--<div id="keyPanel" class="col-xs-12 col-lg-4 col-xs-offset-1 col-sm-offset-3 col-md-offset-4">-->
+      <div id="keyPanel" class="center-block text-center">
+        <div class="row">
+          <button class="col-xs-3 btn btn-lg btn-danger">AC</button>
+          <button class="col-xs-3 btn btn-lg btn-warning">CE</button>
+          <button class="col-xs-3 btn btn-lg btn-info">&plusmn;</button>
+          <button class="col-xs-3 btn btn-lg btn-info">&divide;</button>
+        </div>
+        <div class="row">
+          <button class="col-xs-3 btn btn-lg btn-primary">7</button>
+          <button class="col-xs-3 btn btn-lg btn-primary">8</button>
+          <button class="col-xs-3 btn btn-lg btn-primary">9</button>
+          <button class="col-xs-3 btn btn-lg btn-info">&times;</button>
+        </div>
+        <div class="row">
+          <button class="col-xs-3 btn btn-lg btn-primary">4</button>
+          <button class="col-xs-3 btn btn-lg btn-primary">5</button>
+          <button class="col-xs-3 btn btn-lg btn-primary">6</button>
+          <button class="col-xs-3 btn btn-lg btn-info">+</button>
+        </div>
+        <div class="row">
+          <button class="col-xs-3 btn btn-lg btn-primary">1</button>
+          <button class="col-xs-3 btn btn-lg btn-primary">2</button>
+          <button class="col-xs-3 btn btn-lg btn-primary">3</button>
+          <button class="col-xs-3 btn btn-lg btn-info">-</button>
+        </div>
+        <div class="row">
+          <button class="col-xs-3 btn btn-lg btn-primary">0</button>
+          <button class="col-xs-3 btn btn-lg btn-primary">.</button>
+          <button class="col-xs-6 btn btn-lg btn-success">=</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script src="js/calc-factory.js"></script>
 <script type="text/javascript">

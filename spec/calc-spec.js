@@ -31,7 +31,7 @@ describe('calculator', function () {
     this.keyEqual = $('button:contains("=")');
     this.keyPlusMinus = $(`button:contains(${PLUS_MINUS})`);
     this.keyAdd = $('button:contains("+")');
-    this.keySubs = $('button:contains("-")');
+    this.keySub = $('button:contains("-")');
     this.keyMult = $(`button:contains(${MULTIPLICATION})`);
     this.keyDiv = $(`button:contains(${DIVISION})`);
     this.keyDecimal = $('button:contains(".")');
@@ -122,7 +122,7 @@ describe('calculator', function () {
 
   describe('operation key', function () {
     it('displays nothing and op key not highlighted when pressed at fresh start (blank display)', function(done) {
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       expect($(DISPLAY)).toBeEmpty();
       expect(this.allButtons).not.toBeMatchedBy('button[class="active"]');
       this.keyAdd.trigger('click');
@@ -141,7 +141,7 @@ describe('calculator', function () {
 
     it('displays nothing and does not highlight op key, when pressed after AC key', function(done) {
       this.key4.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.key2.trigger('click');
       this.keyAC.trigger('click');
       this.keyAdd.trigger('click');
@@ -154,7 +154,7 @@ describe('calculator', function () {
 
     it('displays nothing and does not highlight op key, when pressed after CE key', function(done) {
       this.key4.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.key2.trigger('click');
       this.keyCE.trigger('click');
       this.keyMult.trigger('click');
@@ -216,10 +216,10 @@ describe('calculator', function () {
       // Pressed 8, +/-, -
       this.key8.trigger('click');
       this.keyPlusMinus.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       expect($(DISPLAY)).toHaveText('-8');
       expect(this.calculator.getLastOp()).toBe("-");
-      expect(this.keySubs).toHaveClass("active");
+      expect(this.keySub).toHaveClass("active");
       expect($('button:not(:contains("-"))')).not.toHaveClass("active");
       expect(this.calculator.getLastEntryType()).toBe('operation');
       done();
@@ -242,9 +242,9 @@ describe('calculator', function () {
       this.keyDiv.trigger('click');
       this.key2.trigger('click');
       this.keyEqual.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       expect(this.calculator.getLastOp()).toBe("-");
-      expect(this.keySubs).toHaveClass("active");
+      expect(this.keySub).toHaveClass("active");
       expect($('button:not(:contains("-"))')).not.toHaveClass("active");
       expect(this.calculator.getLastEntryType()).toBe('operation');
       expect($(DISPLAY)).toHaveText('4.5');
@@ -296,7 +296,7 @@ describe('calculator', function () {
       this.keyPlusMinus.trigger('click');
       expect($(DISPLAY)).toHaveText("0");
       this.key3.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.key3.trigger('click');
       this.keyEqual.trigger('click');
       expect($(DISPLAY)).toHaveText("0");
@@ -512,7 +512,7 @@ describe('calculator', function () {
       this.key2.trigger('click');
       this.keyPlusMinus.trigger('click');
       this.key0.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.key3.trigger('click');
       this.keyDecimal.trigger('click');
       if (this.calculator.getEntriesArray()[0] !== -1.2 && this.calculator.getEntriesArray()[1] !== '-') {
@@ -531,7 +531,7 @@ describe('calculator', function () {
 
     it('resets everything when pressed after = key', function() {
       this.key8.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.key9.trigger('click');
       this.keyEqual.trigger('click');
       this.keyAC.trigger('click');
@@ -563,9 +563,9 @@ describe('calculator', function () {
       this.key1.trigger('click');
       this.key2.trigger('click');
       this.key0.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.keyPlusMinus.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.key0.trigger('click');
       this.key3.trigger('click');
       this.keyDecimal.trigger('click');
@@ -618,13 +618,13 @@ describe('calculator', function () {
       this.key1.trigger('click');
       this.key2.trigger('click');
       this.keyDecimal.trigger('click');
-      this.keySubs.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
+      this.keySub.trigger('click');
       this.keyAdd.trigger('click');
       this.keyDecimal.trigger('click');
       this.key0.trigger('click');
       this.key3.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.key2.trigger('click');
       this.keyCE.trigger('click');
       this.keyEqual.trigger('click');
@@ -647,7 +647,7 @@ describe('calculator', function () {
       this.keyEqual.trigger('click');
       this.keyDecimal.trigger('click');
       this.key5.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       expect($(DISPLAY)).toHaveText('10.5');
       expect(this.calculator.getLastNumber()).toBe(10.5);
       this.keyAC.trigger('click');
@@ -662,7 +662,7 @@ describe('calculator', function () {
       this.keyDiv.trigger('click');
       this.key2.trigger('click');
       this.keyEqual.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.keyDecimal.trigger('click');
       this.key5.trigger('click');
       this.keyEqual.trigger('click');
@@ -688,7 +688,7 @@ describe('calculator', function () {
 
     it('3 - (-4) correctly', function() {
       this.key3.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.key4.trigger('click');
       this.keyPlusMinus.trigger('click');
       this.keyEqual.trigger('click');
@@ -719,7 +719,7 @@ describe('calculator', function () {
       this.key1.trigger('click');
       this.keyAdd.trigger('click');
       this.key2.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.key3.trigger('click');
       this.keyEqual.trigger('click');
       expect($(DISPLAY)).toHaveText("0");
@@ -751,7 +751,7 @@ describe('calculator', function () {
     it('10 - 1 / 2 correctly', function() {
       this.key1.trigger('click');
       this.key0.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.key1.trigger('click');
       this.keyDiv.trigger('click');
       this.key2.trigger('click');
@@ -764,7 +764,7 @@ describe('calculator', function () {
       this.key4.trigger('click');
       this.keyMult.trigger('click');
       this.key2.trigger('click');
-      this.keySubs.trigger('click');
+      this.keySub.trigger('click');
       this.key1.trigger('click');
       this.key6.trigger('click');
       this.keyEqual.trigger('click');
@@ -813,8 +813,8 @@ describe('calculator', function () {
       expect(this.calculator.getLastOp()).toBe("");
       expect(this.calculator.getLastEntryType()).toBe("digit");
 
-      this.keySubs.trigger('click');
-      expect(this.keySubs).toHaveClass('active');
+      this.keySub.trigger('click');
+      expect(this.keySub).toHaveClass('active');
       this.keyCE.trigger('click');
       // Active op resets when CE key pressed
       expect(this.allButtons).not.toBeMatchedBy('button[class="active"]');
@@ -887,17 +887,58 @@ describe('calculator', function () {
   });
 
   describe('inputs list', function () {
+    it('does not append current number, nor op key, when an op key is pressed', function () {
+      this.key3.trigger('click');
+      this.keySub.trigger('click');
+      expect($(INPUT_HISTORY)).toBeEmpty();
+
+      this.keyDecimal.trigger('click');
+      // Now input list should not be empty...
+      expect($(INPUT_HISTORY)).toContainText('3');
+      expect($(INPUT_HISTORY)).toContainText('-');
+      this.key4.trigger('click');
+      this.keyDiv.trigger('click');
+      // but current number is not appended after the op key
+      expect($(INPUT_HISTORY)).not.toContainText('4');
+      expect($(INPUT_HISTORY)).not.toContainText(DIVISION);
+    });
+
     it('appends current number and op key upon digit key press', function () {
       this.key1.trigger('click');
       this.keyMult.trigger('click');
       this.key2.trigger('click');
-      expect($(INPUT_HISTORY)).toContainText('1')
+      expect($(INPUT_HISTORY)).toContainText('1');
       expect($(INPUT_HISTORY)).toContainText(MULTIPLICATION);
       expect($(INPUT_HISTORY)).not.toContainText('2');
     });
 
-/*    it('does not append current number when an op key is pressed', function () {
+    it('appends current number and op key upon decimal-point key press', function () {
+      this.key4.trigger('click');
+      this.keyAdd.trigger('click');
+      this.keyDecimal.trigger('click');
+      expect($(INPUT_HISTORY)).toContainText('4');
+      expect($(INPUT_HISTORY)).toContainText('+');
+      expect($(INPUT_HISTORY)).not.toContainText('.');
+    });
 
-    });*/
-  })
+    it('is emptied upon = key press', function () {
+      this.key5.trigger('click');
+      this.keyDiv.trigger('click');
+      this.keyEqual.trigger('click');
+      // Inputs not added when list is empty
+      expect($(INPUT_HISTORY)).toBeEmpty();
+      // expect($(INPUT_HISTORY)).not.toContainText('5');
+      // expect($(INPUT_HISTORY)).not.toContainText(DIVISION);
+      // expect($(INPUT_HISTORY)).not.toContainText('=');
+
+      this.keyDiv.trigger('click');
+      this.key6.trigger('click');
+      // Now list should not be empty
+      expect($(INPUT_HISTORY)).toContainText('5');
+      expect($(INPUT_HISTORY)).toContainText(DIVISION);
+      this.keyEqual.trigger('click');
+      // List should be empty again
+      expect($(INPUT_HISTORY)).toBeEmpty();
+    });
+  });
 });
