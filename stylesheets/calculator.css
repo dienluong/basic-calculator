@@ -1,15 +1,41 @@
-#calcBody {
+/*#calcBody {
   float: left;
   margin-right: 10px;
+}*/
+
+.container {
+  min-width: 440px;
 }
 
 #inputList {
-  float: left;
+  /*float: left;*/
   border: double #ba9d37 ;
-  padding: 0 10px;
-  min-height: 50px;
+  /*padding: 0 10px;*/
+  min-height: 2em;
+}
+
+#display {
+  /*display: inline-block;*/
+  border: 3px solid gray;
+  height: 3em;
+  line-height: 1em;
+  min-width: 20em;
+  max-width: 50em;
+  text-align: right;
+  /*vertical-align: middle;*/
+}
+
+#keyPanel {
+  min-width: 10em;
+  max-width: 20em;
+}
+button {
+  font-family: 'courier new', monospace;
+  /*width: 5em;*/
+  /*height: 3em;*/
 }
 
 .active {
   border: 3px solid red;
+  padding: 8px 0;
 }
