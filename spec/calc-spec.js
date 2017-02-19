@@ -940,5 +940,5 @@ describe('calculator', function () {
       // List should be empty again
       expect($(INPUT_HISTORY)).toBeEmpty();
     });
-  })
+  });
 });
