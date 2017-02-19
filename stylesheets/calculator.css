@@ -9,19 +9,23 @@
 
 #inputList {
   /*float: left;*/
-  border: double #ba9d37 ;
+  border: 3px solid orange;
   /*padding: 0 10px;*/
-  min-height: 2em;
+  min-height: 3em;
+  max-width: 40em;
+  background-color: linen;
+  line-height: 1;
 }
 
 #display {
   /*display: inline-block;*/
-  border: 3px solid gray;
+  border: 3px solid lightskyblue;
   height: 3em;
-  line-height: 1em;
+  background-color: white;
+  max-width: 40em;
   min-width: 20em;
-  max-width: 50em;
   text-align: right;
+  line-height: 1;
   /*vertical-align: middle;*/
 }
 
